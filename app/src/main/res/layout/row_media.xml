@@ -7,12 +7,12 @@
     android:layout_margin="10dp"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatCheckBox
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgPlayPause"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="10dp"
-        android:button="@drawable/selector_media_play"
+        android:src="@drawable/selector_media_play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,11 +21,11 @@
         android:id="@+id/seekbar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
-        android:visibility="gone"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgPlayPause"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/totalTime"
@@ -36,8 +36,17 @@
         android:layout_marginEnd="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekbar"
-        tools:text="Total Time" />
+        app:layout_constraintTop_toBottomOf="@+id/seekbar" />
+
+    <TextView
+        android:id="@+id/currentTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/totalTime"
+        app:layout_constraintTop_toBottomOf="@+id/seekbar" />
 
     <ProgressBar
         android:id="@+id/progressBar"
