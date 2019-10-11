@@ -3,6 +3,7 @@ package com.mindinventory.mediaplayerdemo.presentation.adapter
 import android.content.Context
 import android.media.MediaPlayer
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
@@ -10,7 +11,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mindinventory.mediaplayerdemo.R
 import com.mindinventory.mediaplayerdemo.extenstion.inflate
-import com.mindinventory.mediaplayerdemo.extenstion.millisecondsToTime
 import com.mindinventory.mediaplayerdemo.presentation.model.Media
 import kotlinx.android.synthetic.main.row_media.view.*
 import java.util.*
@@ -21,6 +21,7 @@ class MediaAdapter(var activity: Context,
     private val TAG = this::class.java.simpleName
 
     private lateinit var player: MediaPlayer
+    private lateinit var currentTimeTodisplay:String
     private lateinit var mHandler: Handler
     private lateinit var mRunnable: Runnable
     var currentId: Int = -1
@@ -56,7 +57,6 @@ class MediaAdapter(var activity: Context,
             itemView.totalTime.text = media.totalTime
 
             itemView.imgPlayPause.setOnClickListener {
-
                 if (currentId == position && player.isPlaying) {
                     pauseAudio()
                     itemView.imgPlayPause?.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_play_arrow_black))
@@ -86,7 +86,8 @@ class MediaAdapter(var activity: Context,
                     override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                         if (fromUser) {
                             player.seekTo(progress)
-                            itemView.currentTime.text = millisecondsToTime(progress.toLong())
+                            itemView.currentTime.text = currentTimeTodisplay
+//                            itemView.totalTime.text = media.totalTime
                         }
                     }
                 })
@@ -115,8 +116,9 @@ class MediaAdapter(var activity: Context,
             if (getCurrentSeekBar() != null) {
                 getCurrentSeekBar()?.max = player.duration
                 getCurrentSeekBar()?.progress = player.currentPosition
+                currentTimeTodisplay = player.currentPosition.toString()
+                Log.i(TAG, "player.currentPosition>>" + player.currentPosition)
             }
-
             mHandler.postDelayed(mRunnable, 15)
         }
 

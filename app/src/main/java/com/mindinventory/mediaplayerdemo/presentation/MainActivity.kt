@@ -1,5 +1,7 @@
 package com.mindinventory.mediaplayerdemo.presentation
 
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mindinventory.mediaplayerdemo.R
 import com.mindinventory.mediaplayerdemo.Utils.KeyUtils
 import com.mindinventory.mediaplayerdemo.presentation.adapter.MediaAdapter
@@ -53,6 +55,13 @@ class MainActivity : BaseActivity() {
 
         rvMusicFiles.adapter = mediaAdapter
         mediaAdapter.addDataList(mediaList)
+
+        val mLayoutManager = LinearLayoutManager(applicationContext)
+        rvMusicFiles.setLayoutManager(mLayoutManager)
+
+        val dividerItemDecoration = DividerItemDecoration(rvMusicFiles.getContext(),
+                mLayoutManager.getOrientation())
+        rvMusicFiles.addItemDecoration(dividerItemDecoration)
     }
 
     override fun onResume() {
