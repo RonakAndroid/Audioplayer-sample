@@ -32,8 +32,8 @@ class MediaAdapter(var activity: Context,
 
     override fun getItemCount() = mediaList.size
 
-    fun addDataList(mediaModel: ArrayList<Media>?) {
-        mediaModel?.let { mediaList.addAll(it) }
+    fun addDataList(mediaList: ArrayList<Media>?) {
+        mediaList?.let { mediaList.addAll(it) }
         notifyDataSetChanged()
     }
 
@@ -110,29 +110,6 @@ class MediaAdapter(var activity: Context,
         player = MediaPlayer()
     }
 
-    private fun startHandler() {
-        mHandler = Handler()
-
-        mRunnable = Runnable {
-            if (getCurrentSeekBar() != null) {
-                getCurrentSeekBar()?.max = player.duration
-                getCurrentSeekBar()?.progress = player.currentPosition
-                Log.i(TAG, "player.currentPosition>>" + player.currentPosition)
-            }
-            mHandler.postDelayed(mRunnable, 15)
-        }
-
-        mHandler.postDelayed(mRunnable, 15)
-
-        player.setOnCompletionListener {
-            player.stop()
-            player.reset()
-            currentId = -1
-            mHandler.removeCallbacks(mRunnable)
-            notifyDataSetChanged()
-        }
-    }
-
     private fun startAudio(audioUrl: String, isAudioResume: Boolean, position: Int) {
         try {
             mPosition = position
@@ -142,7 +119,6 @@ class MediaAdapter(var activity: Context,
                 player.prepare()
             }
             player.start()
-//            startHandler()
             startHandlerRemaingTime()
             notifyDataSetChanged()
         } catch (e: Exception) {
@@ -155,7 +131,6 @@ class MediaAdapter(var activity: Context,
 
         mRunnable = Runnable {
             if (getCurrentSeekBar() != null) {
-//                currentTimeTodisplay = player.currentPosition.toString()
                 getCurrentSeekBar()?.max = player.duration
                 getCurrentSeekBar()?.progress = player.currentPosition
                 getCurrentTextView()?.text = millisecondsToTime(player.currentPosition.toLong())
@@ -208,7 +183,9 @@ class MediaAdapter(var activity: Context,
             e.printStackTrace()
         }
         return null
-    } private fun getCurrentTextView(): TextView? {
+    }
+
+    private fun getCurrentTextView(): TextView? {
         try {
             val itemView = rvMedia.findViewHolderForLayoutPosition(mPosition)
             val audioViewHolder = itemView as MediaViewHolder

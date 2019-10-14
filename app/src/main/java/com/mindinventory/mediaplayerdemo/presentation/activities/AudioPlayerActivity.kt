@@ -1,4 +1,4 @@
-package com.mindinventory.mediaplayerdemo.presentation
+package com.mindinventory.mediaplayerdemo.presentation.activities
 
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,7 +9,7 @@ import com.mindinventory.mediaplayerdemo.presentation.base.BaseActivity
 import com.mindinventory.mediaplayerdemo.presentation.model.Media
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
+class AudioPlayerActivity : BaseActivity() {
     val mediaList = arrayListOf<Media>()
 
     lateinit var m1: Media
