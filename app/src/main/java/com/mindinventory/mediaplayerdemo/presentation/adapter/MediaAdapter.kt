@@ -7,10 +7,12 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mindinventory.mediaplayerdemo.R
 import com.mindinventory.mediaplayerdemo.extenstion.inflate
+import com.mindinventory.mediaplayerdemo.extenstion.millisecondsToTime
 import com.mindinventory.mediaplayerdemo.presentation.model.Media
 import kotlinx.android.synthetic.main.row_media.view.*
 import java.util.*
@@ -21,7 +23,6 @@ class MediaAdapter(var activity: Context,
     private val TAG = this::class.java.simpleName
 
     private lateinit var player: MediaPlayer
-    private lateinit var currentTimeTodisplay:String
     private lateinit var mHandler: Handler
     private lateinit var mRunnable: Runnable
     var currentId: Int = -1
@@ -46,6 +47,7 @@ class MediaAdapter(var activity: Context,
 
     inner class MediaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var seekbar: SeekBar? = itemView.findViewById(R.id.seekbar)
+        var currentTime: TextView? = itemView.findViewById(R.id.currentTime)
 
         fun bind(media: Media, position: Int) {
             if (currentId == position && player.isPlaying) {
@@ -81,13 +83,12 @@ class MediaAdapter(var activity: Context,
                     }
 
                     override fun onStartTrackingTouch(seekBar: SeekBar) {
+
                     }
 
                     override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                         if (fromUser) {
                             player.seekTo(progress)
-                            itemView.currentTime.text = currentTimeTodisplay
-//                            itemView.totalTime.text = media.totalTime
                         }
                     }
                 })
@@ -116,7 +117,6 @@ class MediaAdapter(var activity: Context,
             if (getCurrentSeekBar() != null) {
                 getCurrentSeekBar()?.max = player.duration
                 getCurrentSeekBar()?.progress = player.currentPosition
-                currentTimeTodisplay = player.currentPosition.toString()
                 Log.i(TAG, "player.currentPosition>>" + player.currentPosition)
             }
             mHandler.postDelayed(mRunnable, 15)
@@ -142,10 +142,36 @@ class MediaAdapter(var activity: Context,
                 player.prepare()
             }
             player.start()
-            startHandler()
+//            startHandler()
+            startHandlerRemaingTime()
             notifyDataSetChanged()
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    private fun startHandlerRemaingTime() {
+        mHandler = Handler()
+
+        mRunnable = Runnable {
+            if (getCurrentSeekBar() != null) {
+//                currentTimeTodisplay = player.currentPosition.toString()
+                getCurrentSeekBar()?.max = player.duration
+                getCurrentSeekBar()?.progress = player.currentPosition
+                getCurrentTextView()?.text = millisecondsToTime(player.currentPosition.toLong())
+                Log.i(TAG, "player.currentPosition>>" + player.currentPosition)
+            }
+            mHandler.postDelayed(mRunnable, 1000)
+        }
+
+        mHandler.postDelayed(mRunnable, 1000)
+
+        player.setOnCompletionListener {
+            player.stop()
+            player.reset()
+            currentId = -1
+            mHandler.removeCallbacks(mRunnable)
+            notifyDataSetChanged()
         }
     }
 
@@ -178,6 +204,15 @@ class MediaAdapter(var activity: Context,
             val itemView = rvMedia.findViewHolderForLayoutPosition(mPosition)
             val audioViewHolder = itemView as MediaViewHolder
             return audioViewHolder.seekbar
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return null
+    } private fun getCurrentTextView(): TextView? {
+        try {
+            val itemView = rvMedia.findViewHolderForLayoutPosition(mPosition)
+            val audioViewHolder = itemView as MediaViewHolder
+            return audioViewHolder.currentTime
         } catch (e: Exception) {
             e.printStackTrace()
         }
