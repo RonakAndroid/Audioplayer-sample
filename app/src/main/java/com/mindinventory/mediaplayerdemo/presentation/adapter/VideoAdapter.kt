@@ -1,30 +1,28 @@
 package com.mindinventory.mediaplayerdemo.presentation.adapter
 
 import android.content.Context
-import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
 import android.widget.VideoView
-import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mindinventory.mediaplayerdemo.R
-import com.mindinventory.mediaplayerdemo.Utils.KeyUtils.VIDEOFILEPATH
+import com.mindinventory.mediaplayerdemo.extenstion.hide
 import com.mindinventory.mediaplayerdemo.extenstion.inflate
+import com.mindinventory.mediaplayerdemo.extenstion.showWithCondition
 import com.mindinventory.mediaplayerdemo.presentation.model.Video
 import kotlinx.android.synthetic.main.row_video.view.*
 import java.util.*
 
-
-class VideoAdapter(activity: Context, rvVideoFiles: RecyclerView?)
-    : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
+class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
     private val TAG = this::class.java.simpleName
-
-    private lateinit var player: VideoView
+    lateinit var mediaController: MediaController
 
     private var videoList = mutableListOf<Video>()
-    var mPosition = -1
+    var currentposition: Int = -1
+    lateinit var oldvideoView: VideoView
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
         return VideoViewHolder(parent.inflate(R.layout.row_video))
@@ -41,50 +39,61 @@ class VideoAdapter(activity: Context, rvVideoFiles: RecyclerView?)
         notifyDataSetChanged()
     }
 
-    override fun onViewAttachedToWindow(holder: VideoViewHolder) {
-        Log.d(TAG, "onViewAttachedToWindow")
-        super.onViewAttachedToWindow(holder)
-    }
-
-
     inner class VideoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(video: Video, position: Int) {
 
-            itemView.imagePlayPause.setOnClickListener {
-                val mediaController = MediaController(itemView.context)
-                mediaController.setAnchorView(itemView.imagePlayPause)
+//            if (currentposition == position && itemView.vvVideoView.isPlaying) {
+//                itemView.imgPlayPauseVideo.setImageDrawable(ContextCompat.getDrawable(
+//                        itemView.imgPlayPauseVideo.context, R.drawable.ic_pause_black))
+//                itemView.imgPlayPauseVideo.hide()
+//            } else {
+//                itemView.imgPlayPauseVideo.setImageDrawable(ContextCompat.getDrawable(
+//                        itemView.imgPlayPauseVideo.context, R.drawable.ic_play_arrow_black))
+//            }
+            itemView.imgPlayPauseVideo.showWithCondition(!itemView.vvVideoView.isPlaying)
 
-                val uri = Uri.parse(VIDEOFILEPATH + "ElephantsDream.mp4")
-                itemView.vvVideoView.setMediaController(mediaController)
-                itemView.vvVideoView.setVideoURI(uri)
-                itemView.vvVideoView.requestFocus()
-                itemView.vvVideoView.start()
+            itemView.imgPlayPauseVideo.setOnClickListener {
+                /*if (currentposition == position && itemView.vvVideoView.isPlaying) {
+                    pauseVideo(itemView.vvVideoView)
+                    itemView.imgPlayPause?.setImageDrawable(ContextCompat.getDrawable(
+                            itemView.imgPlayPause.context, R.drawable.ic_play_arrow_black))
+                } else if (currentposition == position) {
+                    startVideo(itemView.vvVideoView, video.filepath, true, position, mediaController)
+                    itemView.imgPlayPauseVideo.hide()
+                    itemView.imgPlayPause?.setImageDrawable(ContextCompat.getDrawable(
+                            itemView.imgPlayPause.context, R.drawable.ic_pause_black))
+                } else {
+                    stopVideo()
+                    currentposition = position
+                    oldvideoView = itemView.vvVideoView
+                    startVideo(itemView.vvVideoView, video.filepath, false, position, mediaController)
+                    itemView.imgPlayPauseVideo.hide()
+                    itemView.imgPlayPause?.setImageDrawable(ContextCompat.getDrawable(
+                            itemView.imgPlayPause.context, R.drawable.ic_pause_black))
+                }*/
+
+                stopVideo()
+                currentposition = position
+                oldvideoView = itemView.vvVideoView
+                startVideo(itemView.context,itemView.vvVideoView, video.filepath)
+                itemView.imgPlayPauseVideo.hide()
             }
-
         }
     }
 
-    override fun onViewDetachedFromWindow(holder: VideoViewHolder) {
-        Log.d(TAG, "onViewDetachedFromWindow")
-        super.onViewDetachedFromWindow(holder)
+    private fun startVideo(context: Context,vvVideoView: VideoView, filepath: String) {
+        Log.d(TAG, "start Play")
+        vvVideoView.setVideoPath(filepath)
+        mediaController = MediaController(context)
+        mediaController.setAnchorView(vvVideoView)
+        vvVideoView.setMediaController(mediaController)
+        vvVideoView.start()
     }
 
-    override fun onViewRecycled(holder: VideoViewHolder) {
-        Log.d(TAG, "onViewRecycled")
-        super.onViewRecycled(holder)
-    }
-
-    fun initializeVideo(context: Context) {
-/*
-
-        val mediaController = MediaController(context)
-        mediaController.setAnchorView()
-
-        val uri = Uri.parse(VIDEOFILEPATH+"ElephantsDream.mp4")
-        videoView.setMediaController(mediaController)
-        videoView.setVideoURI(uri)
-        videoView.requestFocus()
-        videoView.start()
-*/
+    private fun stopVideo() {
+        if (::oldvideoView.isInitialized) {
+            oldvideoView.stopPlayback()
+            notifyItemChanged(currentposition)
+        }
     }
 }

@@ -1,11 +1,14 @@
 package com.mindinventory.mediaplayerdemo.presentation.activities
 
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mindinventory.mediaplayerdemo.R
 import com.mindinventory.mediaplayerdemo.Utils.KeyUtils
 import com.mindinventory.mediaplayerdemo.presentation.adapter.VideoAdapter
 import com.mindinventory.mediaplayerdemo.presentation.base.BaseActivity
 import com.mindinventory.mediaplayerdemo.presentation.model.Video
 import kotlinx.android.synthetic.main.activity_video_player.*
+
 
 class VideoPlayerActivity : BaseActivity() {
     val videoList = arrayListOf<Video>()
@@ -15,7 +18,7 @@ class VideoPlayerActivity : BaseActivity() {
     }
 
     private val videoAdapter by lazy {
-        VideoAdapter(this, rvVideoFiles)
+        VideoAdapter()
     }
 
     override fun initViews() {
@@ -31,7 +34,7 @@ class VideoPlayerActivity : BaseActivity() {
                 KeyUtils.VIDEOFILEPATH + "TearsOfSteel.mp4")
         val v5 = Video(5, false, "0.00", "12:14",
                 KeyUtils.VIDEOFILEPATH + "ForBiggerEscapes.mp4")
-        val v6 = Video(6, false, "0.00", "",
+        val v6 = Video(6, false, "0.00", "0:15",
                 KeyUtils.VIDEOFILEPATH + "ForBiggerFun.mp4")
         val v7 = Video(7, false, "0.00", "1:00",
                 KeyUtils.VIDEOFILEPATH + "SubaruOutbackOnStreetAndDirt.mp4")
@@ -55,14 +58,16 @@ class VideoPlayerActivity : BaseActivity() {
 
         rvVideoFiles.adapter = videoAdapter
         videoAdapter.addDataToList(videoList)
+        val mLayoutManager = LinearLayoutManager(applicationContext)
+        rvVideoFiles.setLayoutManager(mLayoutManager)
+
+        val dividerItemDecoration = DividerItemDecoration(rvVideoFiles.context,
+                mLayoutManager.getOrientation())
+        rvVideoFiles.addItemDecoration(dividerItemDecoration)
     }
 
-    override fun onResume() {
-        super.onResume()
-        videoAdapter.initializeVideo(this)
-    }
+    override fun onStop() {
+        super.onStop()
 
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }

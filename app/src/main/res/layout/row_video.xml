@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="16dp">
 
     <VideoView
         android:id="@+id/vvVideoView"
@@ -14,9 +15,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imagePlayPause"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:id="@+id/imgPlayPauseVideo"
+        android:layout_width="70dp"
+        android:layout_height="80dp"
         android:src="@drawable/ic_play_arrow_black"
         app:layout_constraintBottom_toBottomOf="@id/vvVideoView"
         app:layout_constraintEnd_toEndOf="@id/vvVideoView"

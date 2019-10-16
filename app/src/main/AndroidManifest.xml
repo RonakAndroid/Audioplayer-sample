@@ -15,13 +15,17 @@
         <activity android:name=".presentation.activities.SingleVideoViewActivity">
 
         </activity>
-        <activity android:name=".presentation.activities.VideoPlayerActivity"> <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <action android:name="android.intent.action.VIEW" />
+        <activity android:name=".presentation.activities.VideoPlayerActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter></activity>
-        <activity android:name=".presentation.activities.AudioPlayerActivity" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".presentation.activities.AudioPlayerActivity">
+
+        </activity>
     </application>
 
 </manifest>

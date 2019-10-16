@@ -24,7 +24,7 @@ class AudioPlayerActivity : BaseActivity() {
     lateinit var m10: Media
 
     private val mediaAdapter by lazy {
-        MediaAdapter(this, rvMusicFiles)
+        MediaAdapter(rvMusicFiles)
     }
 
     override fun getContentResource(): Int = R.layout.activity_main

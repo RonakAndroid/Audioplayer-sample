@@ -1,6 +1,5 @@
 package com.mindinventory.mediaplayerdemo.presentation.adapter
 
-import android.content.Context
 import android.media.MediaPlayer
 import android.os.Handler
 import android.util.Log
@@ -17,15 +16,14 @@ import com.mindinventory.mediaplayerdemo.presentation.model.Media
 import kotlinx.android.synthetic.main.row_media.view.*
 import java.util.*
 
-class MediaAdapter(var activity: Context,
-                   private val rvMedia: RecyclerView)
+class MediaAdapter(private val rvMedia: RecyclerView)
     : RecyclerView.Adapter<MediaAdapter.MediaViewHolder>() {
     private val TAG = this::class.java.simpleName
 
     private lateinit var player: MediaPlayer
     private lateinit var mHandler: Handler
     private lateinit var mRunnable: Runnable
-    var currentId: Int = -1
+    var currentposition: Int = -1
 
     private var mediaList = mutableListOf<Media>()
     var mPosition = -1
@@ -33,7 +31,7 @@ class MediaAdapter(var activity: Context,
     override fun getItemCount() = mediaList.size
 
     fun addDataList(mediaList: ArrayList<Media>?) {
-        mediaList?.let { mediaList.addAll(it) }
+        mediaList?.let { this.mediaList.addAll(it) }
         notifyDataSetChanged()
     }
 
@@ -50,30 +48,35 @@ class MediaAdapter(var activity: Context,
         var currentTime: TextView? = itemView.findViewById(R.id.currentTime)
 
         fun bind(media: Media, position: Int) {
-            if (currentId == position && player.isPlaying) {
-                itemView.imgPlayPause?.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pause_black))
+            if (currentposition == position && player.isPlaying) {
+                itemView.imgPlayPause?.setImageDrawable(ContextCompat.getDrawable(
+                        itemView.imgPlayPause.context, R.drawable.ic_pause_black))
             } else {
-                itemView.imgPlayPause?.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_play_arrow_black))
+                itemView.imgPlayPause?.setImageDrawable(ContextCompat.getDrawable(
+                        itemView.imgPlayPause.context, R.drawable.ic_play_arrow_black))
             }
 
             itemView.totalTime.text = media.totalTime
 
             itemView.imgPlayPause.setOnClickListener {
-                if (currentId == position && player.isPlaying) {
+                if (currentposition == position && player.isPlaying) {
                     pauseAudio()
-                    itemView.imgPlayPause?.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_play_arrow_black))
-                } else if (currentId == position) {
+                    itemView.imgPlayPause?.setImageDrawable(ContextCompat.getDrawable(
+                            itemView.imgPlayPause.context, R.drawable.ic_play_arrow_black))
+                } else if (currentposition == position) {
                     startAudio(media.filepath, true, position)
-                    itemView.imgPlayPause?.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pause_black))
+                    itemView.imgPlayPause?.setImageDrawable(ContextCompat.getDrawable(
+                            itemView.imgPlayPause.context, R.drawable.ic_pause_black))
                 } else {
                     stopAudio()
-                    currentId = position
+                    currentposition = position
                     startAudio(media.filepath, false, position)
-                    itemView.imgPlayPause?.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_pause_black))
+                    itemView.imgPlayPause?.setImageDrawable(ContextCompat.getDrawable(
+                            itemView.imgPlayPause.context, R.drawable.ic_pause_black))
                 }
             }
 
-            if (currentId == position) {
+            if (currentposition == position) {
                 itemView.seekbar.isEnabled = true
                 itemView.seekbar.max = player.duration
                 itemView.seekbar.progress = player.currentPosition
@@ -144,7 +147,7 @@ class MediaAdapter(var activity: Context,
         player.setOnCompletionListener {
             player.stop()
             player.reset()
-            currentId = -1
+            currentposition = -1
             mHandler.removeCallbacks(mRunnable)
             notifyDataSetChanged()
         }
@@ -169,7 +172,7 @@ class MediaAdapter(var activity: Context,
             player.stop()
             mHandler.removeCallbacks(mRunnable)
         }
-        currentId = -1
+        currentposition = -1
         player.reset()
         notifyDataSetChanged()
     }

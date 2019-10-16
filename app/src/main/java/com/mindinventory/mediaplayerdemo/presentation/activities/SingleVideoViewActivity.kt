@@ -1,5 +1,6 @@
 package com.mindinventory.mediaplayerdemo.presentation.activities
 
+import android.os.Build
 import android.view.View
 import android.widget.MediaController
 import com.mindinventory.mediaplayerdemo.R
@@ -25,10 +26,10 @@ class SingleVideoViewActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun configureMediaPlayer() {
-
+        if (videoView.isPlaying)
+            videoView.stopPlayback()
         val mediaController = MediaController(this)
-        videoView.setVideoPath(
-                VIDEOFILEPATH + "Sintel.mp4")
+        videoView.setVideoPath(VIDEOFILEPATH + "Sintel.mp4")
         videoView.setMediaController(mediaController)
         mediaController.setAnchorView(videoView)
         videoView.requestFocus()
@@ -38,7 +39,23 @@ class SingleVideoViewActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btnPlayPause -> configureMediaPlayer()
-            R.id.btnPause-> configurePausePlayer()
+            R.id.btnPause -> configurePausePlayer()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            videoView.pause();
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        releasePlayer()
+    }
+
+    private fun releasePlayer() {
+        videoView.stopPlayback();
     }
 }
