@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<input type="button" value="Say hello" onClick="showAndroidToast('Hello Android WebView!')"/>
+<br/><br/>
+<input type="button" value="Show Log" onClick="showLog('Log within the html')"/>
+<br/><br/>
+<p>Hello Ronak !</p>
+<script type="text/javascript">
+        <!-- Sending value to Android -->
+        function showAndroidToast(toast) {
+            AndroidInterface.showToast(toast);
+        }
+
+        <!-- Getting value from Android -->
+        function showLog(msg) {
+          AndroidInterface.showLog(msg);
+        }
+
+
+
+</script>
+</body>
+</html>

@@ -12,8 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".presentation.activities.SampleUIComponentActivity"></activity>
-        <activity android:name=".presentation.activities.WebViewActivity">
+        <activity android:name=".presentation.activities.WebAPIcallActivity"></activity>
+        <activity android:name=".presentation.activities.WebViewSampleActivity" />
+        <activity android:name=".presentation.activities.CustomSpinnerActivity" />
+        <activity android:name=".presentation.activities.WebViewActivity" />
+        <activity android:name=".presentation.activities.MasterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -21,8 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".presentation.activities.SampleUIComponentActivity" />
         <activity android:name=".presentation.activities.SingleVideoViewActivity" />
-        <activity android:name=".presentation.activities.VideoPlayerActivity"></activity>
+        <activity android:name=".presentation.activities.VideoPlayerActivity" />
         <activity android:name=".presentation.activities.AudioPlayerActivity" />
     </application>
 

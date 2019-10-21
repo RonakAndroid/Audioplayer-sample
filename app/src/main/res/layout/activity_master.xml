@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.activities.MasterActivity">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnMediaPlayer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/media_player"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnVideoPlayer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/str_video_player"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnMediaPlayer" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnWebViewdemo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/str_webview_demo"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnVideoPlayer" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSampleUI"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/sample_ui"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnWebViewdemo" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSingleVideo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/single_video"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnSampleUI" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCustomSpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/str_spinner"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnSingleVideo" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnWebViewSample"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/str_webview_sample"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnCustomSpinner" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnAPIcall"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/str_API_call"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnWebViewSample" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

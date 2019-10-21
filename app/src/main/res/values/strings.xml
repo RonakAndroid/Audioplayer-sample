@@ -3,4 +3,20 @@
     <string name="string_play">PLAY</string>
     <string name="string_pause">PAUSE</string>
     <string name="website_url">https://www.mindinventory.com</string>
+    <string name="media_player">Media Player</string>
+    <string name="sample_ui">Sample UI</string>
+    <string name="str_webview_demo">WebView Demo</string>
+    <string name="str_spinner">Spinner</string>
+    <string name="str_video_player">Multiple VideoView</string>
+    <string name="str_webview_sample">WebView Sample</string>
+    <string name="single_video">Single Video</string>
+    <string name="user_name">Name :</string>
+    <string name="user_gender">Gender</string>
+    <string name="user_Email">Email</string>
+    <string name="user_Address">Address</string>
+    <string name="user_Age">Age</string>
+    <string name="user_phone">Phone :</string>
+    <string name="str_API_call">API Call</string>
+    <string name="user_api_url">https://randomuser.me/api/?results=10</string>
+
 </resources>
